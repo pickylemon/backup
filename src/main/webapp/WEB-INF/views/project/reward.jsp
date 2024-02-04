@@ -15,9 +15,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        .hidden {
+            display : none;
+        }
+        .pjBox {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
         .pjBox .pjForm {
             display: flex;
             flex-direction: column;
+        }
+        input {
+            outline : none;
+        }
+        div.multiOpt, div.singleOpt {
+            display : none;
         }
     </style>
 </head>
@@ -166,7 +180,7 @@
                     </section>
                     <div class="btnWrap">
                         <button type="button">초기화</button>
-                        <buton type="button">저장</buton>
+                        <button type="button">저장</button>
                     </div>
                 </div>
             </div>
@@ -179,7 +193,7 @@
                 <div>
                     <div>내가 만든 아이템 count</div>
                     <ul>
-                        <li></li>
+                        ${itemList}
                     </ul>
                 </div>
             </div>
@@ -192,52 +206,53 @@
                     <section>
                         <p>아이템 이름</p>
                         <div>
-                            <input type="text" inputmode="text" placeholder="아이템 이름을 입력해주세요.">
+                            <input id="itmName" class="input" type="text" placeholder="아이템 이름을 입력해주세요.">
                         </div>
-                        <div>
-                            <span>0/50</span>
-                        </div>
+                        <div></div>
+
                     </section>
                     <section>
                         <p>옵션 조건</p>
                         <div>
                             <div>
-                                <label for="optType">없음</label>
-                                <input type="radio" name="optType">
+                                <label for="noOpt">없음</label>
+                                <input type="radio" name="optType" id="noOpt" value="옵션 없음">
                             </div>
                             <div>
-                                <label for="optType">주관식</label>
-                                <input type="radio" name="optType">
+                                <label for="singleOpt">주관식</label>
+                                <input type="radio" name="optType" id="singleOpt" value="주관식">
                             </div>
                             <div>
-                                <label for="optType">객관식</label>
-                                <input type="radio" name="optType">
+                                <label for="multiOpt">객관식</label>
+                                <input type="radio" name="optType" id="multiOpt" value="객관식">
                             </div>
                         </div>
                     </section>
-                    <section id="">
-                        <div>
-                            <p>옵션 항목</p>
-                            <p>입력완료 후 Enter키를 누르면 옵션 항목이 생성됩니다.</p>
-                        </div>
                         <!--객관식-->
-                        <div class="multi txtWrap">
-                            <textarea placeholder="옵션항목을 입력해주세요."></textarea>
-                        </div>
-                        <section id="multi result">
+                    <section>
+                        <div class="radio multiOpt">
                             <div>
-                                <button type="button">250mm</button>
-                                <button type="button">255mm</button>
+                                <p>옵션 항목</p>
+                                <p>입력완료 후 Enter키를 누르면 옵션 항목이 생성됩니다.</p>
                             </div>
-                        </section>
-                        <!--주관식-->
-                        <div id="single">
-                            <textarea placeholder="예) 각인할 메세지를 입력하세요."></textarea>
+                            <textarea class="input" placeholder="옵션항목을 입력해주세요."></textarea> <!--엔터키를 치면 아래에 버튼이 생성됨-->
+                            <section id="multi result">
+                                <div>
+                                    <button type="button">250mm</button>
+                                    <button type="button">255mm</button>
+                                </div>
+                            </section>
                         </div>
+                        <div></div>
+                        <!--주관식-->
+                        <div class="radio singleOpt">
+                            <textarea class="input" placeholder="예) 각인할 메세지를 입력하세요."></textarea>
+                        </div>
+                        <div></div>
                     </section>
                     <div class="btnWrap">
                         <button type="button">초기화</button>
-                        <buton type="button">저장</buton>
+                        <button type="button">저장</button> <!-- input과 textarea가 모두 입력되어야 활성화되게 -->
                     </div>
                 </div>
             </div>
@@ -252,31 +267,57 @@
         const strBtn = document.querySelector("#strBtn");
         const gftBtn = document.querySelector("#gftBtn");
         const itmBtn = document.querySelector("#itmBtn");
+        const itmName = document.querySelector("#itmName");
+        const radioElems = document.querySelectorAll("input[type=radio]");
 
-        // console.dir(itemPage);
-        // console.dir(giftPage);
         mkHidden([giftPage, itemPage]);
 
         strBtn.addEventListener("click",function(){
             // giftPage.style.display = "none";
             location.href = "#item";
             mkHidden([giftPage, pjItmGft]);
-            mkVisible([itemPage]);
+            mkVisible(itemPage);
         })
         gftBtn.addEventListener("click",function(){
             location.href = "#gift";
             // pjItmGft.style.display = "none";
             // giftPage.style.display = "block";
             mkHidden([itemPage, pjItmGft]);
-            mkVisible([giftPage]);
+            mkVisible(giftPage);
         })
         itmBtn.addEventListener("click",function(){
             location.href = "#item";
             mkHidden([giftPage, pjItmGft]);
-            mkVisible([itemPage]);
+            mkVisible(itemPage);
         })
 
-    }
+        itmName.addEventListener("input",function(){
+            lengthCheck(this,50,'아이템 이름');
+        })
+
+        for(elem of radioElems){
+            elem.addEventListener("change", function(){
+                const inputs = document.querySelectorAll(".radio");
+                inputs.forEach(input => { input.style.display = "none"});
+                // alert("."+this.id);
+
+                const txt = document.querySelector("."+this.id);
+                console.dir(txt);
+                txt.style.display = "block";
+                // const txt2 = txt.querySelector("textarea");
+                // console.dir(txt2);
+                // lengthCheck(txt2,100,'옵션');
+            })
+            // txt.addEventListener("input",function(){
+            //     lengthCheck(this,100);
+            // })
+        }
+
+
+
+
+    }// window.onload
+
     const tglHidden = function(elements){
         elements.forEach(element => {
             element.classList.toggle("hidden");
@@ -287,10 +328,31 @@
             element.style.display = "none";
         })
     }
-    const mkVisible = function(elements){
-        elements.forEach(element => {
-            element.style.display = "flex";
-        })
+    const mkVisible = function(element){
+        element.style.display = "flex";
+    }
+
+    const lengthCheck = function(elem, maxLength, string){
+        const len = elem.parentElement.nextElementSibling
+        // const len = elem.nextElementSibling;
+        // alert(len);
+        elem.style.border = "1.5px solid red";
+        len.style.color = "red"
+        len.style.fontSize = 'small';
+        // alert(elem.value)
+        if(elem.value.trim().length===0){
+            elem.focus();
+            len.innerHTML = '<p>'+string+'을 입력해주세요.<p>'
+            len.style.color = "red"
+        } else if(elem.value.trim().length > maxLength){
+            elem.focus();
+            len.innerHTML = '<p>'+string+'은 50자 이하여야 합니다.<p>'
+
+        } else {
+            elem.style.border = "1px solid black";
+            len.innerHTML = '<p>'+ elem.value.length + '/'+maxLength+'</p>';
+            len.style.color = "black";
+        }
     }
 </script>
 </body>

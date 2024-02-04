@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--현재 작성중인 Mapper와 연결시켜줄 DAO객체를 명시한다-->
+<mapper namespace="com.fundly.project.model.ItemDao">
+    <!--
+    1. 게시물 갯수 세기 (count)
+    2. 게시물 목록/리스트 가져오기 (select)
+    3. 게시글 읽기(select)
+    4. 게시물 쓰기 (write)
+    5. 게시물 수정 (modify)
+    6. 게시물 삭제 (delete) bno와 writer를 모두 확인
+    7. 게시물 삭제 for Admin
+    8. 게시글 전체 삭제
+    -->
+
+    <!--1. 등록된 아이템 갯수 세기-->
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM pj_item
+    </select>
+
+    <!--2. 등록된 아이템 리스트 가져오기-->
+<!--    <select id="selectAll" resultType="ItemDto">-->
+
+<!--    </select>-->
+
+
+
+</mapper>
