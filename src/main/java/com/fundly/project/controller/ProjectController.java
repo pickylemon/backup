@@ -1,6 +1,7 @@
 package com.fundly.project.controller;
 
 import com.fundly.project.service.ItemService;
+import com.fundly.project.service.ItemServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/project")
 public class ProjectController {
     @Autowired
-    ItemService itemService;
+    ItemServiceImpl itemService;
 
     @GetMapping("/reward")
     public String makeGift(){

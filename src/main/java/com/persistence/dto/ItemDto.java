@@ -21,11 +21,10 @@ public class ItemDto {
     private Timestamp dba_mod_dtm;
     private String dba_mod_id;
 
-    public ItemDto(String pj_id, String item_name, String item_option, Timestamp item_reg_dtm){
+    public ItemDto(String pj_id, String item_name, String item_option){
         this.pj_id = pj_id;
         this.item_name = item_name;
         this.item_option = item_option;
-        this.item_reg_dtm = item_reg_dtm;
     }
 
     @Override
