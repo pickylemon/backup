@@ -23,26 +23,26 @@
 
     <!--2. 해당 프로젝트의 모든 아이템 출력 -->
     <select id="selectAllFromPj" resultType="ItemDto">
-        SELECT item_name, item_option
+        SELECT item_name, item_option_type, item_option
         FROM pj_item_tmp
         WHERE pj_id = #{pj_id}
     </select>
 
     <!--3. 모든 프로젝트의 모든 아이템 출력 -->
     <select id="selectAll" resultType="ItemDto">
-        SELECT item_name, item_option
+        SELECT item_name, item_option_type, item_option
         FROM pj_item_tmp
     </select>
 
     <!--4. 아이템 등록 -->
     <insert id="insert" parameterType="ItemDto">
-        <selectKey keyProperty="item_id" resultType="string" order="BEFORE">
-            SELECT nullif(LAST_INSERT_ID(),0)+1
+        <selectKey keyProperty="item_id" resultType="String" order="BEFORE">
+            SELECT concat((ifnull(Max(seq),0)+1),#{pj_id}) from pj_item_tmp
         </selectKey>
         INSERT into pj_item_tmp
-        (item_id, pj_id, item_name, item_option, item_reg_date)
+        (item_id, pj_id, item_name, item_option_type, item_option )
         VALUES
-        (#{item_id}, #{pj_id},#{item_name},#{item_option},now())
+        (#{item_id}, #{pj_id},#{item_name},#{item_option_type}, #{item_option})
     </insert>
 
 
