@@ -13,6 +13,5 @@ public interface ItemService {
     int getItemCount(String pj_id) throws Exception;
     List<ItemDto> getItemList(String pj_id) throws Exception;
     List<ItemDto> getItemList() throws Exception;
-
     int registerItem(ItemDto itemDto) throws Exception;
 }

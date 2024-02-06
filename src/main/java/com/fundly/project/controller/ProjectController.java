@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+@Slf4j
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
@@ -28,8 +31,28 @@ public class ProjectController {
     @ResponseBody
     public ResponseEntity<ItemDto> makeItem(@RequestBody ItemDto itemDto){
         System.out.println("itemDto = " + itemDto);
+//        log.info("itemDto",itemDto);
+        try {
+            if(itemService.registerItem(itemDto)==1){
+                return new ResponseEntity<>(itemDto, HttpStatus.OK);
+            } else {
+                throw new Exception("item register FAIL");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-        return new ResponseEntity<>(itemDto, HttpStatus.OK);
+
+    }
+    @DeleteMapping("/item")
+    @ResponseBody
+    public ResponseEntity<ItemDto> removeItem(@RequestBody String item_name, HttpSession session){
+        System.out.println("item_name = " + item_name);
+        //아이디가 일치해야만 아이템 삭제가 가능하도록
+        //String id = (String)session.getAttribute("id"); 원래는 session으로부터 로그인 아이디를 얻어와야함
+        itemService.re
+
 
     }
 }

@@ -200,7 +200,7 @@
             <div class="pjInfo">
                 <div>
                     <div>내가 만든 아이템 count</div>
-                    <div id="resultItem"></div>
+                    <div id="itemList"></div>
                 </div>
             </div>
             <div class="pjForm">
@@ -246,8 +246,8 @@
                             </div>
                             <div>
                             </div>
-                            <section id="multiResult">
-                                <div>
+                            <section>
+                                <div id="multiResult">
                                 </div>
                             </section>
                         </div>
@@ -309,6 +309,7 @@
         itmName.addEventListener("input",function(){
             lengthCheck(this,50,'아이템 이름');
         })
+        itmName.addEventListener("keyup",makeBlur);
 
         // initBtn.addEventListener("click",function(){ //초기화 버튼
         //     itmName.value = "";
@@ -336,7 +337,9 @@
         //     }
         //     //유효성 검사 통과하면 ajax로 보내기
         // })
-        $(".save").click(function(){
+
+        saveBtn.addEventListener("click", function(){
+        // $(".save").click(function(){
             if(!validCheck()) {
                 alert('필수 입력 항목을 전부 입력해주세요');
                 return;
@@ -344,7 +347,7 @@
             const item_option_type = $('input[type=radio]:checked');
             let item_option;
             if(item_option_type.val() !== '옵션 없음') {
-                item_option = optArr
+                item_option = optArr.toString()
             }
             // } else if (item_option_type.val() === '주관식') {
             //     item_option = $('.'+item_option_type.id+" textarea").val();
@@ -361,9 +364,14 @@
                 success: function(result){
                     alert('아이템이 성공적으로 등록되었습니다.');
                     init(); //기존 입력창을 초기화한다.
-                    const resultItem = $('#resultItem');
-                    
-                    showList();
+                    itemArr.push(result);
+                    console.dir(itemArr);
+                    // const itemList = $('#itemList'); //여기에 오타있나? 제이쿼리로 가져오면 왜 못읽지.
+                    const itemList = document.querySelector('#itemList');
+                    console.dir(itemList)
+                    const list = mkItmList(itemArr);
+                    console.dir(list);
+                    showList(list,itemList);
                     console.dir(result);
                 },
                 error: function(result){alert('아이템 등록에 실패했습니다.')}
@@ -373,13 +381,23 @@
         });
 
         //모든 라디오input에 이벤트 걸기
+        // 라디오 input 선택이 바뀌면
+        //1. 모든 라디오 input들과 매칭되는 모든 div의 display여부와 이전 input들이 초기화된다. (일괄 적용)
+        //2. checekd된 라디오 input(딱 하나)에 대하여 매칭되는 div를 display block하고, 해당 textarea에 글자수 체크 이벤트 걸기
         for(elem of radioElems){
-            elem.addEventListener("change", function(){
-                const inputs = document.querySelectorAll(".radio");
-                inputs.forEach(input => {
-                    const textarea = input.querySelector("textarea");
+            elem.addEventListener("change", function(){ //라디오 선택이 달라지면 해당되는 이전 입력들이 초기화 된다.
+                const inputs = document.querySelectorAll(".radio"); //매칭된 div 요소들을 가져와서
+                //const inputs = document.querySelectorAll("."+elem.id); // 이렇게 하면 안됨.
+                inputs.forEach(input => { //div요소 각각에 대해
+                    //input.style.display = 'block';
+                    const textarea = input.querySelector("textarea"); //자식 textarea를 가져와서
+                    // if(textarea !== null){ // textarea요소가 있으면(즉, 옵션없음이 아니면)
                     textarea.value = "";
-                    textarea.parentElement.nextElementSibling.innerHTML = '<p>0/100</p>'
+                    textarea.parentElement.nextElementSibling.innerHTML = '' //초기화 작업
+                    //
+                    // textarea.addEventListener("input", function() {
+                    //     lengthCheck(this, 100, "옵션");
+                    // })
                     optArr.length = 0; //배열도 초기화
                     const multiResult = document.querySelector("#multiResult");
                     showList(mkOptList(optArr),multiResult);
@@ -388,19 +406,17 @@
                 // 라디오를 여러번 누를 경우를 대비해서.
                 // alert("."+this.id);
 
-
-
-                const txt = document.querySelector("."+this.id);
-                // console.dir(txt);
-                txt.style.display = "block";
-
-                const textarea = txt.querySelector("textarea");
-                textarea.addEventListener("input", function(){
-                    lengthCheck(this, 100, "옵션");
-                    // optArr.push(textarea.value.trim());
-                    // alert(optArr);
-                    // console.dir(optArr);
-                })
+                const input = document.querySelector("."+this.id); //선택된 요소에 대해서 적용
+                if(input!==null) {//'옵션없음'에 해당하지 않으면 (즉, 매칭되는 div요소가 존재)
+                    input.style.display = "block";
+                    const textarea = input.querySelector("textarea");
+                    textarea.addEventListener("input", function () {
+                        lengthCheck(this, 100, "옵션");
+                        // optArr.push(textarea.value.trim());
+                        // alert(optArr);
+                        // console.dir(optArr);
+                    })
+                }
             })
            //여기 공통 코드 묶어서 정리하기
            //  if(elem.id==="singleOpt"){ //
@@ -447,6 +463,7 @@
 
     const lengthCheck = function(elem, maxLength, string){
         elem.maxLength = maxLength;
+        // elem.trim().maxLength = maxLength;
         const len = elem.parentElement.nextElementSibling
         // const len = elem.nextElementSibling;
         // alert(len);
@@ -458,20 +475,28 @@
             elem.focus();
             len.innerHTML = '<p>'+string+'을 입력해주세요.<p>'
             len.style.color = "red"
-        } else if(elem.value.trim().length === maxLength){
+        } else if(elem.value.trim().length > maxLength){
             elem.focus();
-            len.innerHTML = '<p>'+string+'은 '+maxLength+'자 이하여야 합니다.<p>'
+            len.innerHTML = '<p>'+string+'은 '+maxLength+'자 이내여야 합니다.<p>'
 
         } else {
-            elem.style.border = "1px solid black";
+            elem.style.border = "1.7px solid black";
             len.innerHTML = '<p>'+ elem.value.trim().length + '/'+maxLength+'</p>';
             len.style.color = "black";
+        }
+    }
+    const makeBlur = function(){
+        if(window.event.keyCode==13){
+            // window.event.preventDefault();
+            this.blur();
+            this.style.border = "1px solid black";
         }
     }
 
     const enterEvent = function(elem,optArr){
         if(window.event.keyCode===13){
-            event.returnValue=false; //?
+            //window.event.returnValue=false; //?
+            // window.event.preventDefault();
             if(elem.value.trim()==="") {
                 alert('옵션을 입력해주세요.')
                 elem.value = "";
@@ -493,29 +518,80 @@
     const mkOptList = function(optArr){
         let list = '<ul>'
         for(opt of optArr){
-            list += '<li onclick=remove(this)>'+opt+'</li>'
+            list += '<li onclick=remove(optArr,this)>'+opt+'</li>'
         }
         list += '</ul>'
         return list;
     }
-    // const mkItmList = function(itmArr){
-    //     let list = '<div>'
-    //     for(itm of itmArr){
-    //         list += '<p>' + itm.item_name + '</p>'
-    //         list += '<'
-    //
-    //     }
-    //}
+    const mkItmList = function(itmArr){
+        let list = ''
+        for(itm of itmArr){
+            list += '<div style="cursor:pointer" onclick=remove(itemArr,this)>'
+            list += '<p style="font-weight: 600" >'
+            list += itm.item_name + '</p>'
+            list += '<p>'+ itm.item_option_type + '</p>'
+            list += '<ul>'
+            if(itm.item_option!=null){ //옵션없음이 아닌 경우(객관식, 주관식 옵션)
+                const opts = toArray(itm.item_option);
+                for(opt of opts){
+                    list += '<li>'+opt+'</li>'
+                }
+            }
+            list += '</ul>'
+            list += '</div>'
+        }
+        return list;
+    }
+    const toArray = function(string){
+        let arr=[];//아이템 옵션을 담을 배열
+        if(!string.includes(',')) {
+            arr.push(string); //주관식의 경우에는 단순히 문자열을 넣기만
+        } else{
+            arr = string.split(','); //객관식인 경우는 쉼표로 나누어서 넣기
+        }
+        return arr;
+    }
 
     const showList = function(list,elem){
         elem.innerHTML = list
         // console.dir(optArr);
     }
-    const remove = function(elem){
+    const removeItm = function(arr,elem){
+        if(!confirm("이 아이템을 삭제하시겠습니까? 삭제하면 해당 아이템이 포함된 *개의 선물에서도 삭제됩니다.")) return;
+        //Dto객체를 담은 배열에서 객체를 삭제, ajax로 컨트롤러를 통해 db에서 아이템 삭제해야함.
+        $.ajax({
+            type:'POST',
+            url:'/project/item',
+            headers: {"content-type":"application/json"},
+            data: JSON.stringify({'item_name':itmName.value, 'item_option_type':item_option_type.val(), 'item_option':item_option}),
+            success: function(result){
+                alert('아이템이 성공적으로 등록되었습니다.');
+                init(); //기존 입력창을 초기화한다.
+                itemArr.push(result);
+                console.dir(itemArr);
+                // const itemList = $('#itemList'); //여기에 오타있나? 제이쿼리로 가져오면 왜 못읽지.
+                const itemList = document.querySelector('#itemList');
+                console.dir(itemList)
+                const list = mkItmList(itemArr);
+                console.dir(list);
+                showList(list,itemList);
+                console.dir(result);
+            },
+            error: function(result){alert('아이템 등록에 실패했습니다.')}
+
+
+        });
+    });
+
+        })
+
+    }
+    const remove = function(arr,elem){ //옵션이 담기거나, 아이템이 담긴 배열
         if(!confirm('옵션을 삭제하시겠습니까?')) return;
         //배열에서 삭제
-        const index = optArr.indexOf(elem.innerHTML);
-        optArr.splice(index,1);
+        const index = arr.indexOf(elem.innerHTML);
+        alert("index="+index);
+        arr.splice(index,1);
         //요소 삭제
         elem.remove();
     }
@@ -526,12 +602,15 @@
         let textarea;
         const length = itmName.value.trim().length;
         console.log(length);
+        // if(!(0<length&&length<51)) {
+        //     alert('아이템 이름의 글자수를 50자 이내로 맞춰주세요.')
+        // }
         if(checked === null) return false; // 라디오 옵션을 아무것도 체크하지 않으면 false
         console.log(checked);
         if(checked.value!=='옵션 없음'){
             textarea = document.querySelector("."+checked.id).querySelector('textarea');
             console.log(textarea);
-            alert(textarea);
+            // alert(textarea); elem테스트용
         }
         if(length===0) return false; // 아이템 이름을 입력 안하면 false
         if(checked.value==='객관식' && optArr.length<2) return false; //아이템 이름을 입력해도 객관식 조건을 다 입력하지 않으면 false
@@ -553,12 +632,13 @@
         checked.checked = false; //라디오버튼 체크 해제
 
         const checkedDiv = document.querySelector("."+checked.id);
-        checkedDiv.style.display = "none"; //해당 라디오버튼의 div 안보이게
+        if(checkedDiv !== null){
+            checkedDiv.style.display = "none"; //해당 라디오버튼의 div 안보이게
+            const checkedTxt = checkedDiv.querySelector("textarea");
+            checkedTxt.value = ""; //해당 textarea의 값 비우기
+            // console.dir(txt);
 
-        const checkedTxt = checkedDiv.querySelector("textarea");
-        checkedTxt.value = ""; //해당 textarea의 값 비우기
-        // console.dir(txt);
-
+        }
         optArr.length = 0; //배열도 초기화
         const multiResult = document.querySelector("#multiResult");
         showList(mkOptList(optArr),multiResult);
