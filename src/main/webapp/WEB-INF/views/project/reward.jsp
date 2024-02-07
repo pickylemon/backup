@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/a26f9e7c74.js" crossorigin="anonymous"></script>
     <style>
         .hidden {
             display : none;
@@ -40,7 +41,10 @@
         .input {
             width: 80%;
         }
-
+        .dropdown {
+            width: 29%;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -57,7 +61,7 @@
     <div class="pjCont">
         <!-- reward.jsp 요청시, 등록된 아이템이 하나도 없다면 보여주는 화면 -->
 <%--        <c:set var="itemList" value="${itemList}"/>--%>
-        <c:if test="${empty itemList}"> <!--JS로 처리하고 싶었지만 안된다 -->
+<%--        <c:if test="${empty itemList}"> <!--JS로 처리하고 싶었지만 안된다 -->--%>
             <div class="pjBox str" id="str">
                 <div>
                     <div>
@@ -79,17 +83,19 @@
                     </div>
                 </div>
             </div>
-        </c:if>
+<%--        </c:if>--%>
 
         <!-- 선물 만들기 페이지 -->
        <!--역시 JS로 하고 싶었지만 -->
             <div class="pjBox gift" id="gift">
                 <div class="pjInfo">
                     <div>
-                        <div>내가 만든 선물 count</div>
-                        <ul>
-                            <li></li>
-                        </ul>
+                        <div>
+                            <p>내가 만든 선물 count</p>
+                            <div></div>
+
+                        </div>
+
                     </div>
                 </div>
                 <div class="pjForm">
@@ -105,19 +111,20 @@
                                 <p>선물을 구성하는 아이템을 추가해주세요.</p>
                             </div>
                             <div>
-                                <input readonly="" type="text" inputmode="text" value="아이템을 선택해주세요">
+                                <div class="dropdown" style="border:0.1px solid black; cursor:pointer">
+<%--                                    <input style="border:none;outline:none;margin:0" type="text" inputmode="text" size=22 placeholder="아이템을 선택해주세요(클릭)" disabled>--%>
+                                    아이템을 선택해주세요(클릭) <i class="fas fa-regular fa-chevron-down"></i>
+                                </div>
                                 <div>
-                                    <div>
-                                        <ul>
-                                            <li>러닝화 (객관식 옵션) </li>
-                                            <li>만년필 (주관식 옵션) </li>
-                                            <li>감자칩 (옵션 없음) </li>
-                                        </ul>
-                                        <div class="footer">
-                                            <p>2개의 아이템 선택</p>
-                                            <button type="button">선택완료</button>
-                                        </div>
-                                    </div>
+<%--                                        <ul>--%>
+<%--                                            <li>러닝화 (객관식 옵션) </li>--%>
+<%--                                            <li>만년필 (주관식 옵션) </li>--%>
+<%--                                            <li>감자칩 (옵션 없음) </li>--%>
+<%--                                        </ul>--%>
+                                </div>
+                                <div class="footer">
+                                    <p>2개의 아이템 선택</p>
+                                    <button type="button">선택완료</button>
                                 </div>
                             </div>
                         </section>
@@ -292,7 +299,7 @@
     let itemArr = [];
 
     window.onload = function(){
-
+        //아이템 페이지의 요소들
         const itemPage = document.querySelector("#item"); //아이템 페이지 div단락
         const giftPage = document.querySelector("#gift"); //선물 페이지 div단락
         const strPage = document.querySelector("#str"); //선물 만들기 첫 페이지
@@ -304,13 +311,24 @@
         const initBtn = document.querySelector("button.init");//초기화버튼
         const saveBtn = document.querySelector("button.save");//저장버튼
 
+        //선물 페이지의 요소들
+        const dropdown = document.querySelector(".dropdown");
+
+
+
+
         //window.onload시 #itemList에 있는 item수를 세고
         const cnt = document.querySelectorAll("#itemList div");
         console.dir(cnt);
         mkHidden([itemPage]);//이건 cnt와 상관없이
         if(cnt.length===0){
             mkHidden([giftPage]); //아이템이 하나도 없으면 선물시작페이지(strPage)가 뜨도록 giftPage는 숨김처리
+         } else{
+            mkHidden([strPage]);
         }
+            // else {
+        //     mkHidden()
+        // }
 
         <%--console.dir(${itemList.});--%>
         //동작 안함. 이유를 생각하기!!!
@@ -341,7 +359,6 @@
         //     mkHidden([itemPage,strPage]);
         // }
 
-
         gftBtn.addEventListener("click",function(){
             const cnt = document.querySelectorAll("#itemList div");
             console.dir(cnt); //
@@ -357,8 +374,6 @@
                 location.href = "#gift"
                 mkVisible(giftPage);
             }
-            
-
             // const pjBox = document.querySelector(".pjBox");
             // console.dir(pjBox);
             // //location.href = "#gift";
@@ -512,7 +527,9 @@
                         enterEvent(this, optArr);
                 })
             }
-        }
+        }//아이템 페이지에 거는 이벤트들
+
+
 
     }// window.onload
 
