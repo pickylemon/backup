@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -87,4 +89,38 @@ public class ProjectController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/item/{pj_id}")
+    @ResponseBody
+    public ResponseEntity<List<ItemDto>> getItemList(@PathVariable String pj_id){
+        System.out.println("pj_id = " + pj_id);
+        try {
+            List<ItemDto> list = itemService.getItemList(pj_id);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/items")
+    @ResponseBody
+    public ResponseEntity<List<ItemDto>> getItemSelected(String item_id){
+        System.out.println("item_id = " + item_id);
+        List<ItemDto> list = new ArrayList<>();
+        try {
+            if(item_id!=null) {
+                String[] itemIdArr = item_id.split(",");
+                System.out.println("itemIdArr = " + Arrays.toString(itemIdArr));
+                for (int i = 0; i < itemIdArr.length; i++) {
+                    list.add(itemService.getItem(itemIdArr[i]));
+                }
+            }
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(list,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
