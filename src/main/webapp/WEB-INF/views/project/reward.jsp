@@ -139,9 +139,9 @@
                                 <p>어떤 아이템으로 구성되어있는지 쉽게 알 수 있도록 선물 이름을 붙여주세요</p>
                             </div>
                             <div>
-                                <input type="text" inputmode="text" placeholder="방향제+엽서 세트 A" value="">
-                                <p>0/50</p>
+                                <input type="text" id="giftName" placeholder="방향제+엽서 세트 A" value="">
                             </div>
+                            <div></div>
                         </section>
                         <section>
                             <div>
@@ -152,7 +152,8 @@
                                 <div>
                                     <label for="lim">있음</label>
                                     <input name="limit" id="lim" type="radio" value="수량제한 있음">
-                                    <input type="text">개
+                                    <span style="visibility:hidden;"><input class='maxInput' type="number" onkeyup="validRNum(this,1000)" value="1" max="1000">개</span>
+                                    <p class="notice" style="display:none">1000이하의 숫자를 입력하세요</p>
                                 </div>
                                 <label for="unlim">없음</label>
                                 <input name="limit" id="unlim" type="radio" value="수량제한 없음">
@@ -167,7 +168,8 @@
                                 <div>
                                     <label for="maxLim">있음</label>
                                     <input name="maxLimit" id="maxLim" type="radio" value="1인당 선택 제한 있음">
-                                    <input type="text">개
+                                    <span style="visibility: hidden;"><input class='maxInput' type="number" onkeyup="validRNum(this,1000)" value="" max="1000">개</span>
+                                    <p class="notice" style="display:none">1000이하의 숫자를 입력하세요</p>
                                 </div>
                                     <label for="maxUnlim">없음</label>
                                     <input name="maxLimit" id="maxUnlim" type="radio" value="1인당 선택 제한 없음">
@@ -176,13 +178,16 @@
                         <section>
                             <p>예상전달일</p>
                             <div>
-                                <p>2024년 4월 2일</p>
+                                <div id="shipDate">
+                                </div>
                                 <hr>
                                 <div>
-                                    <p>결제 종료일(2024-03-29)로부터</p>
+                                    <p>결제 종료일(2024-03-01)로부터</p> <!--여기 나중에 고쳐야 함. 하드코딩 xx-->
                                     <div>
-                                        <input type="text" inputmode="numeric">일 뒤
+                                        <input type="hidden" value="2024-03-01"> <!--pj에서 넘어온 값을 넣어줘야함 <%--${pj.fund_end_dtm}--%> -->
+                                        <input type="number" onkeyup="validRNum(this,1825);calcDate(this)">일 뒤
                                     </div>
+                                    <p class="notice" style="display:none">최대 1825일(5년) 이내로 입력하세요</p>
                                 </div>
                             </div>
                         </section>
@@ -193,7 +198,9 @@
                                 <p>선물 제작 및 전달에 필요한 모든 비용(포장비, 배송비 등)이 포함된 금액으로 입력해주세요.</p>
                             </div>
                             <div>
-                                <input type="text" inputmode="numeric" placeholder="1000원 이상의 금액을 입력하세요."> 원
+                                <span>
+                                    <input type="text" onkeyup="inputNumberFormat(this)" placeholder="1000원 이상의 금액을 입력하세요.">원
+                                </span>
                             </div>
                         </section>
                         <div class="btnWrap">
