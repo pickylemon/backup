@@ -321,15 +321,17 @@ window.onload = function () {
                 console.dir(this.nextElementSibling);
                 this.nextElementSibling.style.visibility='visible'; //따옴표 안쓰면 안먹힘 ^^
             } else {
-                console.dir(this.parentElement.querySelector('span'));
+                // console.dir(this);
+                // console.dir(this.parentElement)
+                // console.dir(this.parentElement.querySelector('span'));
                 const span = this.parentElement.querySelector('span');
                 span.querySelector('input').value="";
                 span.style.visibility = 'hidden';
+                // console.dir(this.parentElement.querySelector('p.notice'));
+                this.parentElement.querySelector('p.notice').style.display='none';
             }
         })
     }
-
-
 
 
 
@@ -358,29 +360,29 @@ const lengthCheck = function (elem, maxLength, string) {
     const len = elem.parentElement.nextElementSibling
     // const len = elem.nextElementSibling;
     // alert(len);
-    elem.style.border = "1.5px solid red";
-    len.style.color = "red"
-    len.style.fontSize = 'small';
+    elem.parentElement.style.border = ".5px solid #ff5757";
+    len.style.color = '#ff5757';
+    len.style.fontSize = '12px';
     // alert(elem.value)
     if (elem.value.trim().length === 0) {
         elem.focus();
         len.innerHTML = '<p>' + string + '을 입력해주세요.<p>'
-        len.style.color = "red"
+        len.style.color = "#ff5757"
     } else if (elem.value.trim().length > maxLength) {
         elem.focus();
         len.innerHTML = '<p>' + string + '은 ' + maxLength + '자 이내여야 합니다.<p>'
 
     } else {
-        elem.style.border = "1.7px solid black";
+        elem.parentElement.style.border = ".5px solid black";
         len.innerHTML = '<p>' + elem.value.trim().length + '/' + maxLength + '</p>';
-        len.style.color = "black";
+        len.style.color = "#9e9e9e";
     }
 }
 const makeBlur = function () {
-    if (window.event.keyCode == 13) {
+    if (window.event.keyCode === 13) {
         // window.event.preventDefault();
         this.blur();
-        this.style.border = "1px solid black";
+        this.parentElement.style.border = ".5px solid #f1f1f1";
     }
 }
 
@@ -420,10 +422,13 @@ const mkItmList = function (itmArr) {
         list += '<div style="cursor:pointer" onclick=removeItm(itemArr,this) data-item_id=' + itm.item_id + ' data-pj_id=' + itm.pj_id + '>'
         //list += '<input type="hidden" value='+itm.item_id+'>' //item_id를 hidden으로 가져온다.
         //list += '<input type="hidden" value='+itm.pj_id+'>' //hidden으로 넣지 말고 data- attribute에 넣을까..? 굳이 input태그를 하나 더 쓰는게 맞을까?
+        list += '<div class="itmTit" style="border:none;">'
         list += '<p style="font-weight: 600" >'
         list += itm.item_name + '</p>'
-        list += '<p>' + itm.item_option_type + '</p>'
-        list += '<ul>'
+        list += '<div><i class="far fa-regular fa-trash-can"></i></div>'
+        list += '</div>'
+        list += '<p class="itmT">' + itm.item_option_type + '</p>'
+        list += '<ul class="itmL">'
         if (itm.item_option != null) { //옵션없음이 아닌 경우(객관식, 주관식 옵션)
             const opts = toArray(itm.item_option);
             for (opt of opts) {
@@ -527,7 +532,7 @@ const validNum = function(elem){
         //event.returnValue= false;
         //type이 number라서 e는 눌린다..;;; 여기서 조건으로 차단을 하긴 하지만 아예 입력 자체가 안되게 하긴 어렵나보다.
         alert('1이상의 정수로만 입력해주세요.');
-        console.dir(elem);
+        // console.dir(elem);
         elem.value=1;
         return;
     }
@@ -535,7 +540,17 @@ const validNum = function(elem){
 
 const validRNum = function(elem,max){
     validNum(elem);
-    const num = parseInt(elem.value);
+    // console.log(elem);
+    const num = parseInt(uncomma(elem.value)); //금액때문에 uncomma를 한 값을 쓴다.
+    const limValue = document.querySelectorAll('input.maxInput')[0].value;
+    console.log('limValue')
+    console.log(limValue);
+    if(elem.parentElement.previousElementSibling){ //이렇게 조건을 안주면 이 요소가 없는 경우 에러가 나서 다음 코드가 안먹힘 ㅠㅠ
+        if(elem.parentElement.previousElementSibling.id==='maxLim'){
+            if(num>limValue) alert('선물 수량을 초과할 수 없습니다.')
+        }
+    } //선물이 한정수량일 경우(앞의 라디어 버튼) 선물 수량을 초과해서 입력할 수 없도록 경고.
+    // console.log(num);
     if(num<1){
         alert('1이상의 숫자를 입력하세요');
         elem.value = 1;
@@ -579,6 +594,7 @@ const numCheck = function(elem){
     }
 }
 
+//정규식 꼼꼼히 체크하고 이해하기
 function inputNumberFormat(elem) {
     elem.value = comma(uncomma(elem.value));
 }
@@ -771,7 +787,8 @@ const validCheck = function () {
 
 const init = function () {
     itmName.value = "";
-    itmName.parentElement.nextElementSibling.innerHTML = '<p>0/50</p>'
+    itmName.parentElement.nextElementSibling.innerHTML = ''
+    // itmName.parentElement.nextElementSibling.remove();
     const checked = document.querySelector("input[type=radio]:checked")
     checked.checked = false; //라디오버튼 체크 해제
 
