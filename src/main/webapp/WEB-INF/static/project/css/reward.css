@@ -570,13 +570,25 @@ div {
     border: .5px solid #ececec;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-items: center;
     margin-top: 11px;
     padding: 10px 16px 10px;
+    position: relative;
 }
 .pjBox .pjForm  div.limRadio > div:hover {
     cursor: pointer;
+}
+.pjBox .pjForm div.limRadio > div > span {
+    width: 138px;
+    height: 35px;
+    border: .5px solid #ececec;
+    padding-left: 12px;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    right: 15px;
+    /*justify-content: flex-end;*/
 }
 .pjBox .pjForm  div.limRadio > div > input[type=radio]{
     -webkit-appearance: none;
@@ -602,15 +614,6 @@ div {
 .pjBox .pjForm div.limRadio > div > input[type=radio]+label {
     line-height: 56px;
     padding-left: 15px;
-}
-.pjBox .pjForm div.limRadio > div > span {
-    width: 138px;
-    height: 35px;
-    border: .5px solid #ececec;
-    padding-left: 12px;
-    display: flex;
-    flex-direction: row;
-    /*justify-content: flex-end;*/
 }
 .pjBox .pjForm div.limRadio > div > span > input{
     border: none;

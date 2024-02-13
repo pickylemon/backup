@@ -26,6 +26,11 @@ public class ProjectController {
     ItemServiceImpl itemService;
 
 
+    @GetMapping("/test")
+    public String test(){
+        return "project.reward";
+    }
+
     @GetMapping("/reward")
     public String makeGift(Model m){
         //itemService로부터 itemDtoList를 꺼내와서 뷰에 전달함
