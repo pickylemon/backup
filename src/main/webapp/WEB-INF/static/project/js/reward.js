@@ -340,22 +340,47 @@ window.onload = function () {
 
     for(radio of radioBtns){
         radio.parentElement.addEventListener('click',function(){
-            console.dir(this);
-            if(this.nextElementSibling){
-                console.dir(this.nextElementSibling);
-                this.nextElementSibling.style.visibility='visible'; //따옴표 안쓰면 안먹힘 ^^
-            } else {
+            this.querySelector('input[type=radio]').checked = true;
+            this.style.border = '1px solid #f86453';  //클릭된 div는 테두리 색을 바꾸고
+            this.parentElement.querySelector('input[type=radio]:not(:checked)').parentElement.style.border = '.5px solid #ececec';
+            const span = this.querySelector('span');
+            console.log(span);
+            if(span){ //'있음' div의 경우
+                console.dir(span);
+                span.style.visibility='visible'; //따옴표 안쓰면 안먹힘 ^^
+            } else { //'없음'
                 // console.dir(this);
                 // console.dir(this.parentElement)
                 // console.dir(this.parentElement.querySelector('span'));
-                const span = this.parentElement.querySelector('span');
-                span.querySelector('input').value="";
-                span.style.visibility = 'hidden';
+                // const span = this.parentElement.querySelector('span');
+                this.parentElement.querySelector('input.maxInput').value="";
+                this.parentElement.querySelector('span').style.visibility = 'hidden';
                 // console.dir(this.parentElement.querySelector('p.notice'));
-                this.parentElement.querySelector('p.notice').style.display='none';
+                this.closest('div.limRadio').nextElementSibling.style.display='none';
             }
         })
     }
+
+    // for(radio of radioBtns){
+    //     radio.parentElement.addEventListener('click',function(){
+    //         this.style.border = '1px solid #f86453;';
+    //         const span = this.querySelector('span');
+    //         console.log(span);
+    //         if(span){ //'있음' div의 경우
+    //             console.dir(span);
+    //             span.style.visibility='visible'; //따옴표 안쓰면 안먹힘 ^^
+    //         } else { //'없음'
+    //             // console.dir(this);
+    //             // console.dir(this.parentElement)
+    //             // console.dir(this.parentElement.querySelector('span'));
+    //             // const span = this.parentElement.querySelector('span');
+    //             this.parentElement.querySelector('input.maxInput').value="";
+    //             this.parentElement.querySelector('span').style.visibility = 'hidden';
+    //             // console.dir(this.parentElement.querySelector('p.notice'));
+    //             this.parentElement.querySelector('p.notice').style.display='none';
+    //         }
+    //     })
+    // }
 
 
 
@@ -572,8 +597,8 @@ const validNum = function(elem){
         return;
     }
     if(elem.value.trim()===''){
-        alert('수량을 1이상 입력하세요');
-        elem.value = 1;
+        alert('1이상 숫자를 입력하세요');
+        // elem.value = 1;
     }
 }
 
@@ -582,11 +607,17 @@ const validRNum = function(elem,max){
     // console.log(elem);
     const num = parseInt(uncomma(elem.value)); //금액때문에 uncomma를 한 값을 쓴다.
     const limValue = document.querySelectorAll('input.maxInput')[0].value;
+    const notice = elem.closest('section').querySelector('p.notice');
+    // alert(notice);
+    // console.log(notice);
     // console.log('limValue')
     // console.log(limValue);
-    if(elem.parentElement.previousElementSibling){ //이렇게 조건을 안주면 이 요소가 없는 경우 에러가 나서 다음 코드가 안먹힘 ㅠㅠ
-        if(elem.parentElement.previousElementSibling.id==='maxLim'){
-            if(num>limValue) alert('선물 수량을 초과할 수 없습니다.')
+    if(elem.closest('div').querySelector('input')){ //이렇게 조건을 안주면 이 요소가 없는 경우 에러가 나서 다음 코드가 안먹힘 ㅠㅠ
+        if(elem.closest('div').querySelector('input').id==='maxLim'){
+            if(num>limValue) {
+                alert('선물 수량을 초과할 수 없습니다.')
+                elem.value='';
+            }
         }
     } //선물이 한정수량일 경우(앞의 라디어 버튼) 선물 수량을 초과해서 입력할 수 없도록 경고.
     // console.log(num);
@@ -596,9 +627,10 @@ const validRNum = function(elem,max){
         elem.focus();
     }
     if(num>max){
-        elem.parentElement.parentElement.querySelector('p.notice').style.display='block';
+        // elem.parentElement.parentElement.querySelector('p.notice').style.display='block';
+        elem.closest('div.check').nextElementSibling.style.display='block';
     } else {
-        elem.parentElement.parentElement.querySelector('p.notice').style.display='none';
+        elem.closest('div.check').nextElementSibling.style.display='none';
     }
 }
 const numCheck = function(elem){

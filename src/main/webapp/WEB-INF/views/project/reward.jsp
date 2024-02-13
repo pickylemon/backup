@@ -156,36 +156,42 @@
                                 <p>수량제한</p>
                                 <p>선착순으로 선물을 제공하는 경우 총 선물 수량을 설정해주세요.</p>
                             </div>
-                            <div class="limRadio">
+                            <div class="limRadio check">
                                 <div>
                                     <input name="limit" id="lim" type="radio" value="수량제한 있음">
-                                    <label for="lim"></label><span>있음</span>
-                                    <span style="visibility:hidden;"><input class='maxInput' type="number" onkeyup="validRNum(this,1000)" value="1" max="1000">개</span>
-                                    <p class="notice" style="display:none">1000이하의 숫자를 입력하세요</p>
+                                    <label for="lim">있음</label>
+                                    <span style="visibility:hidden;">
+                                        <input class='maxInput' type="number" onkeyup="validRNum(this,1000)" value="1" max="1000">
+                                        <div>개</div>
+                                    </span>
                                 </div>
                                 <div>
                                     <input name="limit" id="unlim" type="radio" value="수량제한 없음">
-                                    <label for="unlim"></label><span>없음</span>
+                                    <label for="unlim">없음</label>
                                 </div>
                             </div>
+                            <p class="notice" style="display:none">1000이하의 숫자를 입력하세요</p>
                         </section>
                         <section>
                             <div>
                                 <p>1인당 최대 선택 제한</p>
                                 <p>후원자 1명이 이 선물을 몇 개까지 선택할 수 있는지 설정해주세요.</p>
                             </div>
-                            <div class="limRadio">
+                            <div class="limRadio check">
                                 <div>
                                     <input name="maxLimit" id="maxLim" type="radio" value="1인당 선택 제한 있음">
                                     <label for="maxLim">있음</label>
-                                    <span style="visibility: hidden;"><input class='maxInput' type="number" onkeyup="validRNum(this,1000)" value="1" max="1000">개</span>
-                                    <p class="notice" style="display:none">1000이하의 숫자를 입력하세요</p>
+                                    <span style="visibility: hidden;">
+                                        <input class='maxInput' type="number" onkeyup="validRNum(this,1000)" value="1" max="1000">
+                                        <div>개</div>
+                                    </span>
                                 </div>
                                 <div>
                                     <input name="maxLimit" id="maxUnlim" type="radio" value="1인당 선택 제한 없음">
                                     <label for="maxUnlim">없음</label>
                                 </div>
                             </div>
+                            <p class="notice" style="display:none">1000이하의 숫자를 입력하세요</p>
                         </section>
                         <section>
                             <p>예상전달일</p>
@@ -215,7 +221,7 @@
                                 <p>선물 제작 및 전달에 필요한 모든 비용(포장비, 배송비 등)이 포함된 금액으로 입력해주세요.</p>
                             </div>
                             <div>
-                                <div class="inputBx money">
+                                <div class="inputBx money check">
                                     <input type="text" onkeyup="validRNum(this,10000000);inputNumberFormat(this);" placeholder="1000원 이상의 금액을 입력하세요.">
                                     <div>원</div>
                                 </div>

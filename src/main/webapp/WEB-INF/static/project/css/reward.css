@@ -558,39 +558,73 @@ div {
 .pjBox .pjForm #selectItm div.right button.cancel:hover{
     cursor: pointer;
 }
-.pjBox .pjForm div.limRadio {
+.pjBox .pjForm  div.limRadio {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-.pjBox .pjForm div.limRadio > div {
+.pjBox .pjForm  div.limRadio > div {
     width: 260px;
     height: 56px;
-    border: 1px solid #ececec;
+    border: .5px solid #ececec;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    margin-top: 11px;
+    padding: 10px 16px 10px;
 }
-.pjBox .pjForm div.limRadio > div > input[type=radio]{
-    display: none;
+.pjBox .pjForm  div.limRadio > div:hover {
+    cursor: pointer;
 }
-/*.pjBox .pjForm div.limRadio > div > input[type=radio]+label{*/
-/*    position:relative;*/
-/*}*/
-.pjBox .pjForm div.limRadio > div > input[type=radio]+label::before{
-    display: inline-block;
-    content: "";
-    width: 20px;
-    height: 20px;
-    border: 1px solid green;
-    /*position:absolute;*/
-}
-.pjBox .pjForm div.limRadio > div > span{
-    display: inline-block;
-    padding-left: 25px;
-}
+.pjBox .pjForm  div.limRadio > div > input[type=radio]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: .5px solid #ececec;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    line-height: 56px;
+    left: 5px;
 
+
+}
+.pjBox .pjForm div.limRadio > div > input[type=radio]:checked {
+    background-color: #ffffff;
+    border: 4px solid #f86453;
+    box-shadow: 0 0 0 0.3px #ffffff;
+
+}
+.pjBox .pjForm div.limRadio > div > input[type=radio]+label {
+    line-height: 56px;
+    padding-left: 15px;
+}
+.pjBox .pjForm div.limRadio > div > span {
+    width: 138px;
+    height: 35px;
+    border: .5px solid #ececec;
+    padding-left: 12px;
+    display: flex;
+    flex-direction: row;
+    /*justify-content: flex-end;*/
+}
+.pjBox .pjForm div.limRadio > div > span > input{
+    border: none;
+    outline: none;
+    width: 84px;
+    height: 34px;
+}
+.pjBox .pjForm div.limRadio > div > span > div {
+    width: 40px;
+    height: 34px;
+    text-align:center;
+    line-height: 34px;
+    border-left: .5px solid #ececec;
+}
 .pjBox .pjForm section div > div.money {
     position: relative;
 }
