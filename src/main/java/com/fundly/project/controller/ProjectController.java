@@ -26,10 +26,10 @@ public class ProjectController {
     ItemServiceImpl itemService;
 
 
-    @GetMapping("/test")
-    public String test(){
-        return "project.reward";
-    }
+//    @GetMapping("/test")
+//    public String test(){
+//        return "project.reward";
+//    }
 
     @GetMapping("/reward")
     public String makeGift(Model m){
@@ -42,7 +42,7 @@ public class ProjectController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "project/reward";
+        return "project.reward";
     }
     @PostMapping("/item")
     @ResponseBody
