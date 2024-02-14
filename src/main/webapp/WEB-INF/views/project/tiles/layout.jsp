@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/static/project/css/reward.css">
     <link rel="stylesheet" href="/static/project/css/funding.css">
     <link rel="stylesheet" href="/static/project/css/basicInfo.css">
+    <link rel="stylesheet" href="/static/project/css/creator.css">
 
 <%--    <link rel="stylesheet" href="/static/project/css/basicInfo.css">--%>
 
