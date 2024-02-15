@@ -2,15 +2,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<!-- 모든 input에 같은 클래스 적용 (outline 등 속성 적용 위해) ex. pjInput-->
-<body>
 <div class="pjWrap">
     <div class="pjCont">
         <!-- 창작자 이름 -->
@@ -180,5 +171,3 @@
         </div>
     </div>
 </div>
-</body>
-</html>
