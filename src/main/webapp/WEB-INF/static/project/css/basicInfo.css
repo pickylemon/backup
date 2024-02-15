@@ -218,18 +218,17 @@ div {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    padding: 13px;
+    border: .5px solid #ececec;
+    background-color: #ffffff;
 }
 .thumb .pjForm {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.pjBox .pjForm .pjImgUp {
-    width: 100%;
-    padding: 13px;
-    border: .5px solid #ececec;
-    background-color: #ffffff;
-}
+
 .pjBox .pjForm .pjImgUp span, .pjBox .pjForm .pjImgUp p, .pjBox .pjForm .pjImgUp strong {
     font-size: 12px;
     line-height: 20px;
