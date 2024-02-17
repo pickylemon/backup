@@ -8,5 +8,7 @@
     </settings>
     <typeAliases>
         <typeAlias alias="ItemDto" type="com.persistence.dto.ItemDto"/>
+        <typeAlias alias="GiftDto" type="com.persistence.dto.GiftDto"/>
+        <typeAlias alias="GiftItemDetailDto" type="com.persistence.dto.GiftItemDetailDto"/>
     </typeAliases>
 </configuration>
