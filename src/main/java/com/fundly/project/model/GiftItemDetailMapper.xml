@@ -34,14 +34,15 @@
     </select>
 
     <!--  5. (선물 수정/등록시) 해당 선물을 구성하는 아이템의 종류와 해당 아이템의 갯수를 등록하기-->
-    <insert id="insert">
+    <insert id="insert" parameterType="GiftItemDetailDto">
         INSERT INTO pj_gift_item_detail
+            (gift_id, item_id, item_qty)
         VALUES (#{gift_id},#{item_id},#{item_qty})
     </insert>
 
 
     <!--  6. (선물 수정시) 해당 선물을 구성하는 아이템의 수량의 변경 -->
-    <update id="update">
+    <update id="update" parameterType="GiftItemDetailDto">
         UPDATE pj_gift_item_detail
         SET item_qty = #{item_qty}
         WHERE gift_item_id = #{gift_item_id}
@@ -58,6 +59,10 @@
     <delete id="deleteAllByGift">
         DELETE FROM pj_gift_item_detail
         WHERE gift_id = #{gift_id}
+    </delete>
+
+    <delete id="deleteAll">
+        TRUNCATE table pj_gift_item_detail
     </delete>
 
 </mapper>
