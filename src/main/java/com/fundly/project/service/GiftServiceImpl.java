@@ -32,6 +32,7 @@ public class GiftServiceImpl implements GiftService {
         for(int i=0; i<itemList.size(); i++){
             giftItemDetailMapper.insert(itemList.get(i));
         }
+//        throw new Exception("for Tx test");
         return giftMapper.insert(giftDto);
     }// 선물 등록하기 (선물 테이블에 insert + 선물 아이템 상세 테이블에도 insert)
 
@@ -81,6 +82,7 @@ public class GiftServiceImpl implements GiftService {
             }
         }
         //gift테이블의 정보 수정 (이것도 변경사항이 무엇인지 체크를 해야하는걸까.. 아니면 그냥 업데이트 해도 되나)
+//        throw new Exception("Tx test");
         return giftMapper.updateContentBefore(giftDto);
     }
 
@@ -98,6 +100,7 @@ public class GiftServiceImpl implements GiftService {
     @Transactional
     public int removeGift(Integer gift_id) throws Exception {
         giftItemDetailMapper.deleteAllByGift(gift_id);
+//        throw new RuntimeException("Tx테스트"); //테스트용
         return giftMapper.delete(gift_id);
     }
 

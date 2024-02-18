@@ -14,17 +14,14 @@
     @Builder
     public class GiftDto {
         private Integer gift_id;
-        private String pj_id;
-        private Integer item_id;
-        private Integer item_qty;
-        private Integer seq;
         private String gift_name;
+        private String pj_id;
         private String gift_qty_lim_yn;
+        private Integer gift_total_qty;
         private Integer gift_max_qty_per_person;
         private String gift_ship_due_date;
         private String gift_ship_need_yn;
         private BigInteger gift_money;
-        private Integer gift_total_qty;
         private Integer gift_sold_qty;
         private Integer gift_curr_qty;
         private String gift_status;
@@ -73,17 +70,18 @@
             this.gift_money = BigInteger.valueOf(gift_money);
             this.gift_curr_qty = gift_curr_qty;
         }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             GiftDto giftDto = (GiftDto) o;
-            return Objects.equals(gift_id, giftDto.gift_id) && Objects.equals(pj_id, giftDto.pj_id) && Objects.equals(item_id, giftDto.item_id) && Objects.equals(seq, giftDto.seq) && Objects.equals(gift_name, giftDto.gift_name);
+            return Objects.equals(gift_id, giftDto.gift_id) && Objects.equals(gift_name, giftDto.gift_name) && Objects.equals(pj_id, giftDto.pj_id);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(gift_id, pj_id, item_id, seq, gift_name);
+            return Objects.hash(gift_id, pj_id, gift_name);
         }
     }
 
