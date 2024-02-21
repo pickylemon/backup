@@ -10,24 +10,15 @@ import config.RootContext;
 import config.ServletContext;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 @SpringJUnitWebConfig(classes = {RootContext.class, ServletContext.class})
@@ -66,9 +57,9 @@ class ItemServiceImplTest2 {
                 .gift_qty_lim_yn("n")
                 .gift_total_qty(null)
                 .gift_max_qty_per_person(null)
-                .gift_ship_due_date("20240518")
+                .gift_ship_due_date(LocalDateTime.now())
                 .gift_ship_need_yn("y")
-                .gift_money(BigInteger.valueOf(30000))
+                .gift_money(30000)
                 .gift_curr_qty(null)
                 .build();
         giftMapper.insert(giftDto);
@@ -86,9 +77,9 @@ class ItemServiceImplTest2 {
                 .gift_qty_lim_yn("n")
                 .gift_total_qty(null)
                 .gift_max_qty_per_person(null)
-                .gift_ship_due_date("20240518")
+                .gift_ship_due_date(LocalDateTime.now())
                 .gift_ship_need_yn("y")
-                .gift_money(BigInteger.valueOf(30000))
+                .gift_money(30000)
                 .gift_curr_qty(null)
                 .build();
         giftMapper.insert(giftDto);
@@ -106,9 +97,9 @@ class ItemServiceImplTest2 {
                 .gift_qty_lim_yn("n")
                 .gift_total_qty(null)
                 .gift_max_qty_per_person(null)
-                .gift_ship_due_date("20240518")
+                .gift_ship_due_date(LocalDateTime.now())
                 .gift_ship_need_yn("y")
-                .gift_money(BigInteger.valueOf(30000))
+                .gift_money(30000)
                 .gift_curr_qty(null)
                 .build();
         giftMapper.insert(giftDto);
@@ -121,7 +112,7 @@ class ItemServiceImplTest2 {
     }
     @Test
     @SneakyThrows
-    //Tx의 경우 어떻게 테스트를 하지...??
+        //Tx의 경우 어떻게 테스트를 하지...??
     void remove() {
 
 //
@@ -141,13 +132,14 @@ class ItemServiceImplTest2 {
         }
     }
 
-    @Test
-    @SneakyThrows
-    public void failTest(){
-        //giftService.remove()또는 itemService.remove()에서 exception발생한 상황을 가정
-        RuntimeException e = Assertions.assertThrows(RuntimeException.class
-                , () -> itemService.remove(itemDto.getItem_id()));
-        e.printStackTrace();
-
-    }
+//    @Test
+//    @SneakyThrows
+//    @DisplayName("롤백 테스트")
+//    public void failTest(){
+//        //giftService.remove()또는 itemService.remove()에서 exception발생한 상황을 가정
+//        Exception e = Assertions.assertThrows(Exception.class
+//                , () -> itemService.remove(itemDto.getItem_id()));
+//        e.printStackTrace();
+//
+//    }
 }

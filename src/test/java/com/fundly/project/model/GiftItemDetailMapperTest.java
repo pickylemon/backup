@@ -1,6 +1,5 @@
 package com.fundly.project.model;
 
-import com.persistence.dto.GiftDto;
 import com.persistence.dto.GiftItemDetailDto;
 import config.RootContext;
 import config.ServletContext;
@@ -12,10 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-import java.math.BigInteger;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
 @SpringJUnitWebConfig(classes = {RootContext.class, ServletContext.class})
@@ -161,10 +159,10 @@ class GiftItemDetailMapperTest {
         mapper.deleteAll(); // truncate table
 
         for(int i=0; i<10; i++){
-             dto = GiftItemDetailDto.builder()
-                     .gift_id(i/5<1?1:2)
-                     .item_id(i%5+1)
-                     .item_qty(getRandomQty())
+            dto = GiftItemDetailDto.builder()
+                    .gift_id(i/5<1?1:2)
+                    .item_id(i%5+1)
+                    .item_qty(getRandomQty())
                     .build();
             //log.error("dto={}",dto);
             rowCnt += mapper.insert(dto);

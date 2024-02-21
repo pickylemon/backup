@@ -6,8 +6,6 @@ import com.fundly.project.model.ItemMapper;
 import com.persistence.dto.GiftDto;
 import com.persistence.dto.GiftItemDetailDto;
 import com.persistence.dto.ItemDto;
-import config.RootContext;
-import config.ServletContext;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,20 +14,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
-import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.given;
 
 @Slf4j
 //@SpringJUnitWebConfig(classes = {RootContext.class, ServletContext.class})
@@ -171,7 +162,7 @@ class ItemServiceImplTest {
 
     @Test
     @SneakyThrows
-    //Tx의 경우 어떻게 테스트를 하지...??
+        //Tx의 경우 어떻게 테스트를 하지...??
     void remove() {
         //특정 아이템을 삭제하면, 특정 아이템을 포함한 모든 선물들도 삭제되어야 한다.
         given(itemMapper.delete(itemDto.getItem_id())).willReturn(1);

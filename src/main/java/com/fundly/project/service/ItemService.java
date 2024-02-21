@@ -2,7 +2,6 @@ package com.fundly.project.service;
 
 
 import com.persistence.dto.ItemDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
