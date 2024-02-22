@@ -40,18 +40,20 @@ public class GiftServiceImpl implements GiftService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int registerGift(GiftDto giftDto, List<GiftItemDetailDto> itemList) throws Exception{
+        int rowCnt = giftMapper.insert(giftDto);
+
         for(int i=0; i<itemList.size(); i++){
             giftItemDetailMapper.insert(itemList.get(i));
         }
 //        throw new Exception("for Tx test");
-        return giftMapper.insert(giftDto);
+        return rowCnt;
     }// 선물 등록하기 (선물 테이블에 insert + 선물 아이템 상세 테이블에도 insert)
 
 
 
 
     @Override
-    public GiftDto getGift(Integer gift_id) throws Exception {
+    public GiftDto getGift(String gift_id) throws Exception {
         return giftMapper.select(gift_id);
     }// 특정 선물 하나 가져오기
 
@@ -112,7 +114,7 @@ public class GiftServiceImpl implements GiftService {
 
     @Override
     @Transactional
-    public int removeGift(Integer gift_id) throws Exception {
+    public int removeGift(String gift_id) throws Exception {
         giftItemDetailMapper.deleteAllByGift(gift_id);
 //        throw new RuntimeException("Tx테스트"); //테스트용
         return giftMapper.delete(gift_id);
@@ -124,13 +126,13 @@ public class GiftServiceImpl implements GiftService {
     @Override
     public GiftDto toGiftDto(GiftForm giftForm) {
         GiftDto giftDto = GiftDto.builder()
+                .gift_id(giftForm.getGift_id())
                 .gift_name(giftForm.getGift_name())
                 .pj_id(giftForm.getPj_id())
                 .gift_qty_lim_yn(giftForm.getGift_qty_lim_yn())
                 .gift_total_qty(giftForm.getGift_total_qty())
                 .gift_max_qty_per_person(giftForm.getGift_max_qty_per_person())
                 .gift_ship_due_date(giftForm.getGift_ship_due_date())
-                .gift_ship_need_yn(giftForm.getGift_ship_need_yn())
                 .gift_money(giftForm.getGift_money())
                 .dba_reg_id(giftForm.getDba_reg_id()) //Controller에서 세션으로 부터 얻은 user_id
                 .build();
@@ -140,9 +142,9 @@ public class GiftServiceImpl implements GiftService {
 
     @Override
     public List<GiftItemDetailDto> toGiftItemDetailDto(GiftForm giftForm) {
-        List<GiftItemDetailDto> itemList = new ArrayList<>(); //하나의 선물을 구성하는 아이템 상세를 담는 리스트
+        List<GiftItemDetailDto> itemList = new ArrayList<>();
         GiftItemDetailDto giftItemDetailDto;
-        int num = giftForm.getItem_qty().length; //하나의 선물에 포함된 아이템의 수
+        int num = giftForm.getItem_qty().length;
         for(int i=0; i<num; i++){
             giftItemDetailDto = GiftItemDetailDto.builder()
                     .gift_id(giftForm.getGift_id())
@@ -151,6 +153,7 @@ public class GiftServiceImpl implements GiftService {
                     .build();
             itemList.add(giftItemDetailDto);
         }
+
         return itemList;
     }
 
