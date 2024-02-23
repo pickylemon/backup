@@ -25,8 +25,8 @@ import java.util.Properties;
 
 @Slf4j
 @Configuration
-@MapperScan(basePackages = {"com.fundly.**.model", "com.**.dao"})
-@PropertySource(value = {"/WEB-INF/config/db.properties", "/WEB-INF/config/mailPro.properties"})
+@MapperScan(basePackages = {"com.fundly.**.model"})
+@PropertySource(value = {"/WEB-INF/config/db.properties"})
 @ComponentScan(basePackages = "com.fundly", excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class ))
 @EnableTransactionManagement
 public class RootContext {

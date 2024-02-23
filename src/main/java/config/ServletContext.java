@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
         includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class),
         excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {Service.class, Repository.class, Mapper.class})
 )
-@PropertySource(value = "/WEB-INF/config/pay.properties")
+//@PropertySource(value = "/WEB-INF/config/pay.properties")
 //@PropertySource(value = {"/WEB-INF/config/pay.properties", "/WEB-INF/config/payTest.properties"})
 public class ServletContext implements WebMvcConfigurer {
 
