@@ -157,7 +157,7 @@ window.onload = function () {
         })
             .then( response => {
                 if(!response.ok) {
-                    throw response
+                    throw response.text()
                 }
                 return response.json()
             })
@@ -172,7 +172,11 @@ window.onload = function () {
                 showList(mkItmList(ItemArr),itemList);
 
             })
-            .catch(error => error)
+            .catch(error => error).then(error => {
+            alert("[등록 실패] " + error);
+            console.log("item등록 실패");
+            console.log(error);
+        })
         // .then(error => {
         //     alert('아이템 등록에 실패했습니다.')
         //     console.log(error)
@@ -506,7 +510,7 @@ window.onload = function () {
                 giftInit();
             })
             .catch(error => error).then(error => {
-            alert(error);
+            alert("[등록 실패] "+error);
             console.log(error);
         })
         // 중복된 선물 이름을 입력한 경우에도, 다른 입력값을 보존하기 위해 입력 필드 초기화 함수는 호출하지 않는다.
@@ -1238,6 +1242,8 @@ const removeGift = function(elem){
     }
     if(!confirm("선물을 삭제하시겠습니까?")) return;
 
+    //  /project/gift ? gift_id=102 & pj_id=pj120
+
     fetch("/project/gift?gift_id="+elem.getAttribute("data-gift_id")+"&pj_id="+elem.getAttribute("data-pj_id"), {
         method: "DELETE",
         headers: {
@@ -1262,7 +1268,6 @@ const removeGift = function(elem){
             const giftList = document.querySelector('#giftList')
             //선물리스트 data를 가지고 html태그를 만드는 함수 호출해서 화면에 뿌리기
             showList(mkGiftList(giftArr),giftList);
-            giftInit();
 
         })
         .catch(error => error).then(error => {

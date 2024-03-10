@@ -14,7 +14,9 @@
         </div>
         <div class="hBtnWrap">
             <button type="button" class="preview"><i class="fas fa-solid fa-eye"></i> &nbsp;&nbsp;미리 보기</button>
+            <button type="button" class="cancel">취소</button>
             <button type="button" class="save">저장</button>
+            <button type="button" class="modify">수정</button>
         </div>
     </div>
     <div class="topContentsWrapper">
@@ -23,11 +25,11 @@
     <div class="fixedContentWrapper">
         <div class="planWrap">
             <ul>
-                <li><a id="default" class="active" href="<c:url value='/project/default'/>">기본 정보</a></li>
-                <li><a id="funding" href="<c:url value='/project/funding'/>">펀딩 계획</a></li>
-                <li><a id="reward" href="<c:url value='/project/reward'/>">선물 구성</a></li>
-                <li><a id="story" href="<c:url value='/project/story'/>">프로젝트 계획</a></li>
-                <li><a id="creator" href="<c:url value='/project/creator'/>">창작자 정보</a></li>
+                <li><a id="default" class="active" href="<c:url value='/project/editor/info'/>">기본 정보</a></li>
+                <li><a id="funding" href="<c:url value='/project/editor/funding'/>">펀딩 계획</a></li>
+                <li><a id="reward" href="<c:url value='/project/editor/reward'/>">선물 구성</a></li>
+                <li><a id="story" href="<c:url value='/project/editor/story'/>">프로젝트 계획</a></li>
+                <li><a id="creator" href="<c:url value='/project/editor/creator'/>">창작자 정보</a></li>
             </ul>
         </div>
     </div>

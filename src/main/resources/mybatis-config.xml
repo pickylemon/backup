@@ -10,5 +10,8 @@
         <typeAlias alias="ItemDto" type="com.persistence.dto.ItemDto"/>
         <typeAlias alias="GiftDto" type="com.persistence.dto.GiftDto"/>
         <typeAlias alias="GiftItemDetailDto" type="com.persistence.dto.GiftItemDetailDto"/>
+        <typeAlias alias="ProjectDto" type="com.persistence.dto.ProjectDto"/>
+        <typeAlias alias="HolidayDto" type="com.persistence.dto.HolidayDto"/>
+
     </typeAliases>
 </configuration>
